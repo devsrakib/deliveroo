@@ -1,11 +1,13 @@
 /* eslint-disable import/order */
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Fonts } from '@/constants/Fonts';
 import { Link } from 'expo-router';
+import BottomSheet from './BottomSheet';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 const SearchBar = () => (
   <View style={styles.searchContainer}>
@@ -24,13 +26,18 @@ const SearchBar = () => (
 );
 
 const CustomHeader = () => {
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const openModal = () => {
+    bottomSheetRef.current?.present();
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
+      <BottomSheet ref={bottomSheetRef} />
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => openModal()}>
           <Image style={styles.logo} source={require('@/assets/Images/bike.jpeg')} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.titleContainer}>
+        <TouchableOpacity style={styles.titleContainer} onPress={() => openModal()}>
           <Text style={styles.title}>Delivery . now</Text>
           <View style={styles.subTitleCon}>
             <Text style={styles.subtitle}>Dhaka, Bangladesh</Text>
